@@ -106,3 +106,21 @@ body{
     min-height: calc(100vh - var(--topbar-h) - 24px);
     display: flex; flex-direction: column; gap:  10px;
 }
+.title-input{
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 10 px;
+    background: #0e1015;
+    color: var(--text);
+    font-weight: 600;
+}
+.editor-area{
+    flex: 1;
+    resize: vertical;
+    padding: 12px;
+    line-height: 1.6;
+    border: 1px solid var(--border);
+    border-radius: 10 px;
+    background: #0e1015;
+    color: var(--text);
+}
