@@ -27,17 +27,34 @@ class InMemoryNotesRepo:
         nums = [int(n.title.split()[-1]
                     ) for n in self.items if n.title.startswith("Запис")]
         next_num = (max(nums, default=0) + 1)
+        note = Note(next_id, f"Запис {next_num}", "")
+        self.items.insert(0, note) # кладемо новий запис на початок списку
+        return note
 
+class DiaryApp:
+    """ Тримає разом Flask і репозиторій"""
+    def __init__(self):
+        self.repo = InMemoryNotesRepo()
+        self.app = Flask(__name__)
+        self.register_routes()
 
+    def register_routes(self):
+        app = self.app # для зручності
 
-# створюємо екземпляр класу. __name__ каже де шукати ресурси
-app = Flask(__name__)
+        @app.route("/")
+        def home():
+            notes = self.repo.list_all() # беремо всі записи
+            selected = notes[0] if notes else None
+            # віддаємо шаблон і передаємо дані
+            return render_template("index.html", notes=notes, selected=selected)
+        
+        @app.route("/notes/new", methods=["POST"])
+        def new_note():
+            self.repo.create() # створюємо новий "Запис N"
+            return redirect(url_for("home"))
 
-# декоратор route прив'язує URL "/" до функції hello
-@app.route("/")
-def home():
-    # повертаємо відповідь у браузері
-    return render_template("index.html")
+    def run(self):
+        self.app.run(debug=True)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    DiaryApp().run()

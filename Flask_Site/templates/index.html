@@ -19,11 +19,17 @@
                     <input class="search" type="text" placeholder="Пошук записів..."/>
                 </div>
                 <nav class="notes-list">
-                    <a class="note active" href="#">Запис 1</a>
-                    <a class="note" href="#">Запис 2</a>
-                    <a class="note" href="#">Запис 3</a>
+                    {% for n in notes %}
+                    <a class="note {% if selected and n.id==selected.id %}active{% endif %}" href="#">
+                        {{ n.title}}
+                    </a>
+                    {% else %}
+                    <div class="empty">Немає запису</div>
+                    {% endfor %}
                 </nav>
-                <button class="add-btn" type="button">+ Новий запис</button>
+                <form method="post" action="{{ url_for('new_note')}}">
+                    <button class="add-btn" type="submit">+ Новий запис</button>
+                </form>
             </aside>
             <section class="editor">
                 <div class="editor-card">
