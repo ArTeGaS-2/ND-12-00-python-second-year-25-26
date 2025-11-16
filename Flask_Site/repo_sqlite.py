@@ -54,3 +54,52 @@ class SqliteNotesRepo:
                 result.append(note)
             
             return result
+        
+    def get(self, note_id: int) -> Optional[Note]:
+        with self._get_conn() as conn:
+            row = conn.execute(
+                "SELECT id, title, body FROM notes WHERE id = ?",
+                (note_id,)).fetchone()
+            
+            if row is Note:
+                return Note
+            
+            return Note(row["id"], row["title"], row["body"])
+        
+    def _next_title(self) -> str:
+        """Рахуємо наступну назву 'Запис N' """
+        with self._get_conn() as conn:
+            rows = conn.execute("SELECT title FROM notes").fetchall()
+
+            biggest = 0 # Найбільший знайдений номер
+            total = 0 # скільки записів всього
+            for r in rows:
+                total = total + 1
+                title = r["title"]
+                parts = title.split()
+                # шукаємо назви формату "Запис N"
+                if len(parts) >= 2 and parts[0].lower() == "запис":
+                    last = parts[-1]
+                    if last.isdigit():
+                        num = int(last)
+                        if num > biggest:
+                            biggest = num
+            if biggest > 0:
+                return f"Запис {biggest + 1}"
+            else:
+                return f"Запис {total + 1}"
+            
+    def create(self) -> None:
+        title = self._next_title()
+
+        with self._get_conn() as conn:
+            cur = conn.cursor()
+            cur.execute(
+                "INSERT INTO notes(title, body) VALUES(?,?)",
+                (title, ""))
+            conn.commit()
+            new_id = cur.lastrowid
+
+        created = self.get(new_id)
+        return created
+
