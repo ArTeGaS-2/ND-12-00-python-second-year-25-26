@@ -7,6 +7,8 @@ from flask import Flask, render_template, request, redirect, url_for
 
 from models import Note # імпорт нашої моделі
 
+from repo_sqlite import SqliteNotesRepo
+
 class InMemoryNotesRepo:
     """Сховище нотаток у оперативній пам'яті (без БД)"""
     def __init__(self):
@@ -34,7 +36,7 @@ class InMemoryNotesRepo:
 class DiaryApp:
     """ Тримає разом Flask і репозиторій"""
     def __init__(self):
-        self.repo = InMemoryNotesRepo()
+        self.repo = SqliteNotesRepo("diary.db")
         self.app = Flask(__name__)
         self.register_routes()
 
@@ -44,14 +46,25 @@ class DiaryApp:
         @app.route("/")
         def home():
             notes = self.repo.list_all() # беремо всі записи
-            selected = notes[0] if notes else None
+           
+            selected_id = request.args.get("id", type=int)
+
+            if selected_id is not None:
+                selected = self.repo.get(selected_id)
+            else:
+                if len(notes) > 0:
+                    first_id = notes[0].id
+                    selected = self.repo.get(first_id)
+                else:
+                    selected = None
+
             # віддаємо шаблон і передаємо дані
             return render_template("index.html", notes=notes, selected=selected)
         
         @app.route("/notes/new", methods=["POST"])
         def new_note():
-            self.repo.create() # створюємо новий "Запис N"
-            return redirect(url_for("home"))
+            note = self.repo.create() # створюємо новий "Запис N"
+            return redirect(url_for("home", id=note.id))
 
     def run(self):
         self.app.run(debug=True)

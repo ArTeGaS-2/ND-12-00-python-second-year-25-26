@@ -21,8 +21,8 @@ class SqliteNotesRepo:
 
             # створюємо таблицю notes, якщо її ще немає
             cur.execute("""
-                CREATE TABLE IF NOT EXIST notes (
-                    id INTEGER PRIMARY KEY AUTOIINCREMENT, -- унікальний ID
+                CREATE TABLE IF NOT EXISTS notes (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT, -- унікальний ID
                     title TEXT NOT NULL,                   -- назва
                     body  TEXT NOT NULL DEFAULT '',        -- текст, за змовчуванням
                     created_at DATETIME DEFAULT CURRENT_TIMESTEP -- коли створено
@@ -36,7 +36,7 @@ class SqliteNotesRepo:
             # якщо таблиця порожня - додаємо 2 перших записи
             if count == 0:
                 cur.executemany(
-                    "INSERT INTO notes(title, body) VALUES (?, ?)*",
+                    "INSERT INTO notes(title, body) VALUES (?, ?)",
                     [("Запис 1", ""), ("Запис 2", "")]
                 )
                 conn.commit()

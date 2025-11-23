@@ -20,7 +20,8 @@
                 </div>
                 <nav class="notes-list">
                     {% for n in notes %}
-                    <a class="note {% if selected and n.id==selected.id %}active{% endif %}" href="#">
+                    <a class="note {% if selected and n.id==selected.id %}active{% endif %}" 
+                        href="{{ url_for('home', id=n.id)}}">
                         {{ n.title}}
                     </a>
                     {% else %}
@@ -32,10 +33,18 @@
                 </form>
             </aside>
             <section class="editor">
-                <div class="editor-card">
-                    <input class="title-input" type="text" value="Запис 1"/>
-                    <textarea class="editor-area" placeholder="Пиши тут..."></textarea>
-                </div>
+                {% if selected %}
+                    <div class="editor-card">
+                        <input class="title-input" type="text" value="{{ selected.title}}" readonly/>
+                        <textarea class="editor-area" placeholder="Пиши тут..." readonly>
+                            {{selected.body}}
+                        </textarea>
+                    </div>
+                {% else %}
+                    <div class="editor-card">
+                        <div class="body">Немає записів</div>
+                    </div>
+                {% endif %}
             </section>
         </div>
     </div>
