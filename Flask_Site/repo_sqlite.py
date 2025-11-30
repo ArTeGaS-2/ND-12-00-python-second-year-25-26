@@ -103,3 +103,19 @@ class SqliteNotesRepo:
         created = self.get(new_id)
         return created
 
+    def update(self, note_id: int, new_title: str, new_body:str) -> None:
+        """Оновлює назву і текст запису з вказаним id"""
+        # підчищаємо назву
+        title = new_title.strip()
+        if len(title) == 0:
+            title = "Без назви"
+
+        body = new_body
+
+        with self._get_conn() as conn:
+            cur = conn.cursor()
+            cur.execute(
+                "UPDATE notes SET title = ?, body = ? WHERE id = ?",
+                (title, body, note_id)
+            )
+            conn.commit()
