@@ -65,6 +65,23 @@ class DiaryApp:
         def new_note():
             note = self.repo.create() # створюємо новий "Запис N"
             return redirect(url_for("home", id=note.id))
+        
+        @app.route("/notes/<int:note_id>/update", methods=["POST"])
+        def update_note(note_id: int):
+            # читаємо дані з форми
+            title_from_form = request.form.get("title")
+            body_from_form = request.form.get("body")
+
+            #
+            if title_from_form is None:
+                title_from_form = " "
+            if body_from_form is None:
+                body_from_form = " "
+
+            # зберігаємо в БД
+            self.repo.update(note_id, title_from_form, body_from_form)
+
+            return redirect(url_for("home", id=note_id))
 
     def run(self):
         self.app.run(debug=True)

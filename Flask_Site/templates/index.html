@@ -34,12 +34,18 @@
             </aside>
             <section class="editor">
                 {% if selected %}
-                    <div class="editor-card">
-                        <input class="title-input" type="text" value="{{ selected.title}}" readonly/>
-                        <textarea class="editor-area" placeholder="Пиши тут..." readonly>
-                            {{selected.body}}
+                    <form class="editor-card" method="post"
+                        action="{{ url_for('update_note', note_id=selected.id)}}">
+                        <input class="title-input" type="text" name="title"
+                            value="{{ selected.title}}"/>
+                        <textarea class="editor-area" name="body"
+                            placeholder="Пиши тут...">
+                            {{ selected.body }}
                         </textarea>
-                    </div>
+                        <div class="action">
+                            <button class="save-btn" type="submit">Зберегти</button>
+                        </div>
+                    </form>
                 {% else %}
                     <div class="editor-card">
                         <div class="body">Немає записів</div>

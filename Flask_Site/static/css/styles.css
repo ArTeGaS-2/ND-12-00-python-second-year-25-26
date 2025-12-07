@@ -124,3 +124,13 @@ body{
     background: #0e1015;
     color: var(--text);
 }
+.actions{display: flex; gap: 10px;}
+.save-btn{
+    padding: 10px 16px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--accent);
+    color: #fff;
+    cursor: pointer;
+    border-color: transparent;
+}
