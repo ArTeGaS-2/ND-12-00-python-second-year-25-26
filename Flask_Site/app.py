@@ -82,6 +82,12 @@ class DiaryApp:
             self.repo.update(note_id, title_from_form, body_from_form)
 
             return redirect(url_for("home", id=note_id))
+        
+        @app.route("/notes/<int:note_id>/delete", methods=["POST"])
+        def delete_note(note_id: int):
+            self.repo.delete()
+            return redirect(url_for("home"))
+
 
     def run(self):
         self.app.run(debug=True)

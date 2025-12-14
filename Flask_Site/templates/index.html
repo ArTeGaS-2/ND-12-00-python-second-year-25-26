@@ -34,18 +34,32 @@
             </aside>
             <section class="editor">
                 {% if selected %}
-                    <form class="editor-card" method="post"
-                        action="{{ url_for('update_note', note_id=selected.id)}}">
-                        <input class="title-input" type="text" name="title"
-                            value="{{ selected.title}}"/>
-                        <textarea class="editor-area" name="body"
-                            placeholder="Пиши тут...">
-                            {{ selected.body }}
-                        </textarea>
-                        <div class="action">
-                            <button class="save-btn" type="submit">Зберегти</button>
+                    <div class="editor-card">
+                        <form id="edit-form"
+                              class="editor-form"
+                              method="post"
+                              action="{{ url_for('update_note', note_id=selected.id)}}">
+                            <input class="title-input"
+                                type="text"
+                                name="title"
+                                value="{{ selected.title}}"/>
+                            <textarea class="editor-area"
+                                name="body"
+                                placeholder="Пиши тут...">
+                                {{ selected.body }}</textarea>
+                           
+                        </form>
+                        <div class="editor-actions">
+                            <button class="save-btn"
+                                type="submit"
+                                form="edit-form">Зберегти</button>
+                            <form method="post"
+                                action="{{ url_for('delete_note', note_id=selected.id)}}">
+                                <button class="delete_btn"
+                                    type="submit">Видалити запись</button>
+                            </form>
                         </div>
-                    </form>
+                    </div>
                 {% else %}
                     <div class="editor-card">
                         <div class="body">Немає записів</div>
