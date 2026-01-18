@@ -122,7 +122,7 @@ class SqliteNotesRepo:
     
     def delete(self, note_id: int) -> None:
         """Видаляє запис з таблиці notes за id."""
-        with self._get_conn as conn:
+        with self._get_conn() as conn:
             cur = conn.cursor()
             cur.execute("DELETE FROM notes WHERE id = ?", (note_id,))
             conn.commit()

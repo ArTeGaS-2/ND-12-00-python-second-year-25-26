@@ -85,7 +85,7 @@ class DiaryApp:
         
         @app.route("/notes/<int:note_id>/delete", methods=["POST"])
         def delete_note(note_id: int):
-            self.repo.delete()
+            self.repo.delete(note_id)
             return redirect(url_for("home"))
 
 

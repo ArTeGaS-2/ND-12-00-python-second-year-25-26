@@ -2,4 +2,4 @@
 
 nums = [4, 8, 15, 16, 23, 42]
 
-print("Останній:", nums[len(nums)])
+print("Останній:", nums[len(nums) - 1])
