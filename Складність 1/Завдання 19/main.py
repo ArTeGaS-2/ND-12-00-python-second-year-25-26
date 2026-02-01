@@ -2,5 +2,5 @@
 
 word = "Привіт"
 
-word.add("!")
+word.append("!")
 print(word)

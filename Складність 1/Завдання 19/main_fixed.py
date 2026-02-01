@@ -2,7 +2,7 @@
 
 word = "Привіт"
 
-word += "!"
+word = word + "!"
 print(word)
 
 """
