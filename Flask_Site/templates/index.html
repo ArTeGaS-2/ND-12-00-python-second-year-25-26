@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Щоденник</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css')}}"/>
+
+</head>
+<body>
+    <div class="app">
+        <header class="topbar">
+            <div class="brand">Щоденник</div>
+            <div class="toolbar-placeholder">Панель інструментів(резерв)</div>
+        </header>
+        <div class="main">
+            <aside class="sidebar">
+                <div class="search-wrap">
+                    <input class="search" type="text" placeholder="Пошук записів..."/>
+                </div>
+                <nav class="notes-list">
+                    {% for n in notes %}
+                    <a class="note {% if selected and n.id==selected.id %}active{% endif %}" 
+                        href="{{ url_for('home', id=n.id)}}">
+                        {{ n.title}}
+                    </a>
+                    {% else %}
+                    <div class="empty">Немає запису</div>
+                    {% endfor %}
+                </nav>
+                <form method="post" action="{{ url_for('new_note')}}">
+                    <button class="add-btn" type="submit">+ Новий запис</button>
+                </form>
+            </aside>
+            <section class="editor">
+                {% if selected %}
+                    <div class="editor-card">
+                        <form id="edit-form"
+                              class="editor-form"
+                              method="post"
+                              action="{{ url_for('update_note', note_id=selected.id)}}">
+                            <input class="title-input"
+                                type="text"
+                                name="title"
+                                value="{{ selected.title}}"/>
+                            <textarea class="editor-area"
+                                name="body"
+                                placeholder="Пиши тут...">
+                                {{ selected.body }}</textarea>
+                           
+                        </form>
+                        <div class="editor-actions">
+                            <button class="save-btn"
+                                type="submit"
+                                form="edit-form">Зберегти</button>
+                            <form method="post"
+                                action="{{ url_for('delete_note', note_id=selected.id)}}">
+                                <button class="delete_btn"
+                                    type="submit">Видалити запись</button>
+                            </form>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="editor-card">
+                        <div class="body">Немає записів</div>
+                    </div>
+                {% endif %}
+            </section>
+        </div>
+    </div>
+</body>
+</html>
