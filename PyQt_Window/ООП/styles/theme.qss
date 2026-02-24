@@ -1,0 +1,27 @@
+QWidget {
+    background: #100f2d;
+}
+
+TopBar {
+    background: #060721;
+    color: white;
+}
+
+Sidebar {
+    background: #11122a;
+    color: white;
+}
+
+Editor {
+    background: #ffffff;
+}
+
+QLineEdit {
+    font-size: 16px;
+    padding: 6px;
+}
+
+QTextEdit {
+    font-size: 14px;
+    padding: 8px;
+}
