@@ -5,7 +5,6 @@ from ui.main_window import MainWindow
 from core.controller import DiaryController
 from core.storage import InMemoryStorage
 
-
 def main():
     app = QApplication(sys.argv)
 
