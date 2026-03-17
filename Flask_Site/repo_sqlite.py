@@ -1,6 +1,6 @@
 import sqlite3
 from typing import Optional, List
-from models import Note
+from Flask_Site.models import Note
 
 class SqliteNotesRepo:
     """Зберігає нотатки у файлі SQLite."""
@@ -25,7 +25,7 @@ class SqliteNotesRepo:
                     id INTEGER PRIMARY KEY AUTOINCREMENT, -- унікальний ID
                     title TEXT NOT NULL,                   -- назва
                     body  TEXT NOT NULL DEFAULT '',        -- текст, за змовчуванням
-                    created_at DATETIME DEFAULT CURRENT_TIMESTEP -- коли створено
+                    created_at DATETIME DEFAULT CURRENT_TIMESTAMP -- коли створено
                             )
                         """)
             conn.commit()

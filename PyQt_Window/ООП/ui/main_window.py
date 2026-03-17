@@ -14,6 +14,10 @@ class MainWindow(QWidget):
 
         self.init_ui()
 
+        # підключаємо сигнали ТУТ (після створення editor)
+        self.editor.title_input.editingFinished.connect(self.save_note)
+        self.editor.text_area.textChanged.connect(self.save_note)
+
     def init_ui(self):
         root = QVBoxLayout(self)
         root.setContentsMargins(0, 0, 0, 0)
@@ -28,9 +32,20 @@ class MainWindow(QWidget):
         content_layout.setSpacing(0)
 
         self.sidebar = Sidebar(self.controller)
-        self.editor = Editor()
+        self.editor = Editor()   # ← тут створюється editor
 
         content_layout.addWidget(self.sidebar)
         content_layout.addWidget(self.editor, 1)
 
         root.addWidget(content, 1)
+
+    def save_note(self):
+        note_id = self.sidebar.current_note_id
+
+        if note_id is None:
+            return
+
+        title = self.editor.title_input.text()
+        body = self.editor.text_area.toPlainText()
+
+        self.controller.update_note(note_id, title, body)

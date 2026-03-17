@@ -1,16 +1,17 @@
 import sys
 from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[2]
+sys.path.append(str(ROOT))
+
 from PyQt6.QtWidgets import QApplication
 from ui.main_window import MainWindow
 from core.controller import DiaryController
-from core.storage import InMemoryStorage
 
 def main():
     app = QApplication(sys.argv)
 
-    # storage + controller
-    storage = InMemoryStorage()
-    controller = DiaryController(storage)
+    controller = DiaryController()
 
     # main window
     window = MainWindow(controller)
