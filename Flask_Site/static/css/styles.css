@@ -139,33 +139,33 @@ body{
     flex-direction: column;
     gap: 10px;
     flex: 1;                 /* займає весь доступний простір над панеллю дій */
-  }
+}
   
   /* Нижня панель дій: Save зліва, Delete справа */
-  .editor-actions{
+.editor-actions{
     display: flex;
     justify-content: space-between;  /* рознести по краях */
     align-items: center;
     margin-top: 6px;
-  }
+}
   
   /* Кнопка збереження (ліва) */
-  .save-btn{
+.save-btn{
     padding:10px 16px;
     border-radius:10px;
     background: var(--accent);
     color:#fff;
     border: none;
     cursor:pointer;
-  }
+}
   
   /* Кнопка видалення (справа) */
-  .delete-btn{
+.delete-btn{
     padding:10px 16px;
     border-radius:10px;
     background: #ef4444;   /* червоний */
     color:#fff;
     border: none;
     cursor:pointer;
-  }
-  .delete-btn:hover{ filter: brightness(0.95); }
+}
+.delete-btn:hover{ filter: brightness(0.95); }
