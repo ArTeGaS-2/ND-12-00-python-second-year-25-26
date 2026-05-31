@@ -1,0 +1,2 @@
+ND-12-00 lesson checkpoint 2026-05-31.
+Self-study work on Python Tower Defense.
